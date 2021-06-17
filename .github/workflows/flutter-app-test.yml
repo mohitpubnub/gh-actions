@@ -2,19 +2,19 @@ name: flutter app test script
 on: [push]
 
 jobs:
-  Flutter-App-Test-Job:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v1
-      # Setup a flutter environment.
-      # https://github.com/marketplace/actions/flutter-action
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '2.2.0'
-          channel: 'dev'
-      - run: flutter pub get
+  # Flutter-App-Test-Job:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     # Setup a flutter environment.
+  #     # https://github.com/marketplace/actions/flutter-action
+  #     - uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: '2.2.0'
+  #         channel: 'dev'
+  #     - run: flutter pub get
 
-  drive_ios:
+  ios_test:
     strategy:
       matrix:
         device:
@@ -23,7 +23,7 @@ jobs:
     runs-on: macos-latest
     steps:
     # For Information only
-      - name: Available Simulators 
+      - name: List available Simulators 
         run: xcrun instruments -s
       - name: Boot mentioned simulator
         run: |
@@ -36,7 +36,7 @@ jobs:
           )
           xcrun simctl boot "${UDID:?No Simulator with given name found}"
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.2.0'
           channel: 'dev'
