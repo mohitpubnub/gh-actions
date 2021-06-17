@@ -1,0 +1,46 @@
+name: flutter app test script
+on: [push]
+
+jobs:
+  Flutter-App-Test-Job:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      # Setup a flutter environment.
+      # https://github.com/marketplace/actions/flutter-action
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.2.0'
+          channel: 'dev'
+      - run: flutter pub get
+
+  drive_ios:
+    strategy:
+      matrix:
+        device:
+          - "iPhone 12 Pro Max (14.1)"
+      fail-fast: false
+    runs-on: macos-latest
+    needs: test
+    steps:
+    # For Information only
+      - name: Available Simulators 
+        run: xcrun instruments -s
+      - name: Boot mentioned simulator
+        run: |
+          UDID=$(
+            xcrun instruments -s |
+            awk \
+              -F ' *[][]' \
+              -v 'device=${{ matrix.device }}' \
+              '$1 == device { print $2 }'
+          )
+          xcrun simctl boot "${UDID:?No Simulator with given name found}"
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.2.0'
+          channel: 'dev'
+
+      - name: Run Flutter Driver tests
+        run: flutter drive --target=test_driver/app.dart
