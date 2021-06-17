@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         device:
-          - "iPhone 12 Pro Max (14.1)"
+          - "iPhone 12 Pro Max (14.4)"
       fail-fast: false
     runs-on: macos-latest
     steps:
