@@ -21,7 +21,6 @@ jobs:
           - "iPhone 12 Pro Max (14.1)"
       fail-fast: false
     runs-on: macos-latest
-    needs: test
     steps:
     # For Information only
       - name: Available Simulators 
