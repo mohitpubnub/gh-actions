@@ -31,15 +31,5 @@ void main() {
       // Then, verify the counter text is incremented by 1.
       expect(await driver.getText(counterTextFinder), "1");
     });
-
-    test('increments the counter during animation', () async {
-      await driver.runUnsynchronized(() async {
-        // First, tap the button.
-        await driver.tap(buttonFinder);
-
-        // Then, verify the counter text is incremented by 1.
-        expect(await driver.getText(counterTextFinder), "2");
-      });
-    });
   });
 }
